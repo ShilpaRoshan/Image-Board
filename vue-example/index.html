@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-example</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{ 'Hello Vue!'}}</p>
+        <p>2+2 = {{2 + 2}}</p>
+        <h1 v-bind:class = "message">{{message}}</h1>
+        <input type="number" v-model = "count">
+        <button v-on:click = "incrementCount">Increment Count</button>
+        <p v-if="count > 0">Your count value is {{count}}</p>
+        <p v-else>Count is equal or less than 0.</p>
+        <ul>
+            <li v-for = "todo in todos">{{todo.value}}</li>
+        </ul>
+       
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src ="script.js"></script>
+</body>
+</html>

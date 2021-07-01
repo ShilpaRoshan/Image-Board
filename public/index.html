@@ -1,10 +1,25 @@
 <!doctype html>
 <html>
 <head>
-    <title></title>
+    <title>Image Board</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <main id ="main">
+        <h1>{{header}}</h1>
+        <div v-if ="images.length > 0">
+            <ul class = "image-container">
+            <li v-for="image in images" class ="images-list">
+                <img :src="image.url" alt="" class = "img">
+               <p><h5>{{image.description}}</h5></p>
+            </li>
+        </ul>
+        </div>
+        <div v-else>No images are available!!</div>
+        
+    </main>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
