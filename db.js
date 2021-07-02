@@ -16,7 +16,20 @@ function getImages() {
         return results.rows;
     });
 }
+function insertImage(url, username, imgTitle, imgDescription) {
+    return db
+        .query(
+            `INSERT INTO images (url, username, title, description) 
+        VALUES ($1, $2, $3, $4) 
+        RETURNING *`,
+            [url, username, imgTitle, imgDescription]
+        )
+        .then((result) => {
+            return result.rows[0];
+        });
+}
 
 module.exports = {
     getImages,
+    insertImage,
 };
