@@ -10,8 +10,8 @@
         methods: {
             uploadImage: function () {
                 const formData = new FormData();
-                formData.append("imgTitle", this.imgTitle);
-                formData.append("imgDescription", this.imgDescription);
+                formData.append("title", this.title);
+                formData.append("description", this.description);
                 formData.append("username", this.username);
                 formData.append("image", this.imageInput[0]);
                 axios.post("/api/upload", formData).then((response) => {
