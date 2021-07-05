@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-component</title>
+</head>
+
+    <body>
+    <main id ="main">
+        <h1>Vue-Component</h1>
+        <h3>{{heading}}</h3>
+        <ul>
+            <li v-for="icecream in icecreams">
+                <icecream-select v-bind:id="icecream.id" v-bind:icecream ="icecream.icecream" v-bind:toppings = "icecream.toppings" v-on:icecream-click = "onClickIcecream">
+                </icecream-select>
+            </li>
+        </ul>
+        
+        <modal v:if="currentId" v-bind:id = "currentId"></modal>
+       
+    </main>
+    
+
+    <script id = "icecream-select" type ="text/x-template">
+        <p v-on:click ="onClick"> {{icecream}} icecream with {{toppings}} as toppings.</p>
+    </script>
+    <script id ="icecream-modal" type= "text/x-template">
+        <h5>You selected {{icecream}} flavour.</h5>
+    </script>
+
+
+    <script src = "https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src ="script.js"></script>  
+</body>
+</html>

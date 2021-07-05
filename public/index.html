@@ -16,7 +16,7 @@
                 <label for="username">Username</label>
                 <input type="text" name="username" v:model = "username">
                 <label for="file">File</label>
-                <input type="file" accept ="image/*" name="image" required>
+                <input type="file" accept ="image/*" name="image" required v-on:change="handleUploadImage">
                 <button v:on-click="uploadImage">Upload</button>
 
             </form>
@@ -26,14 +26,47 @@
         <div v-if ="images.length > 0">
             <ul class = "image-container">
             <li v-for="image in images" class ="images-list">
-                <img :src="image.url" alt="" class = "img">
-               <p><h5>{{image.description}}</h5></p>
+                <article class = "image" v-on:click = "onImageClick(image.id)">
+                    <img :src="image.url" alt="" class = "img" >
+                    <p><h5>{{image.description}}</h5></p>
+                </article>
+                
             </li>
         </ul>
         </div>
         <div v-else>No images are available!!</div>
-        
+        <modal v-if = "currentImageId" v-bind:image-id="currentImageId" @close-modal = "onClose"></modal>
     </main>
+    <!--template of modal-->
+    <script id="modal" type = "text/x-template">
+        <div class = "modal">
+            <div class = "modal-content">
+                <button class="close" v-on:click="onCloseButtonClick">X</button>
+                <img :src="image.url" :alt="image.title">
+                <h5 class ="image-title">{{image.title}}</h5>
+                <p class="image-description">{{image.description}}</p>
+                <p class ="image-info">Uploaded By {{image.username}} ,{{image.created_at}}</p>
+                <comments v-bind:image-id="imageId"></comments>
+            </div>
+        </div>
+    </script>
+    <!--template of comments-->
+    <script id="comments" type="text/x-template">
+        <section class ="comments">
+            <ul v-if="comments.length>0"class ="comments-list">
+                <li v-for="comment in comments">
+                    {{comment.comment_text}} - {{comment.username}}
+                </li>
+            </ul>
+            <p v-if="!comments.length" class = "no-comments">No comments yet!!</p>
+            <form @submit.prevent = "onSubmit">
+                <input type="text" v-model = "username">
+                <textarea name="comments" id="" cols="30" rows="10" v-model="comment_text"></textarea>
+                <button type ="submit">Send</button>
+            </form>
+        </section>
+    </script>
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/script.js"></script>
