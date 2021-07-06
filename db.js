@@ -11,10 +11,31 @@ function getDatabaseURL() {
 const db = spicedPg(getDatabaseURL());
 console.log(`[db] Connecting to ,${database}`);
 
-function getImages() {
-    return db.query(`SELECT * from images`).then((results) => {
-        return results.rows;
-    });
+const DEFAULT_LIMIT = 3;
+function getImages({ last_id, limit }) {
+    if (last_id) {
+        return db
+            .query(
+                `SELECT * FROM images
+                        WHERE id < $1
+                        ORDER BY id DESC
+                        LIMIT $2`,
+                [last_id, limit || DEFAULT_LIMIT]
+            )
+            .then((result) => {
+                return result.rows;
+            });
+    }
+    return db
+        .query(
+            `SELECT * FROM images
+                    ORDER BY id DESC
+                    LIMIT $1`,
+            [limit || DEFAULT_LIMIT]
+        )
+        .then((result) => {
+            return result.rows;
+        });
 }
 function insertImage(url, username, title, description) {
     return db

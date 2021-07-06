@@ -1,4 +1,15 @@
 (function () {
+    const IMG_LIMIT = 3;
+    const getLastImageId = function (images) {
+        let value;
+        console.log("hello!");
+        for (let i = 0; i < images.length; i++) {
+            value = Math.min(images[i].id);
+        }
+        console.log("[value]", value);
+        return value;
+    };
+
     Vue.component("comments", {
         props: ["imageId"],
         template: "#comments",
@@ -63,14 +74,26 @@
     new Vue({
         el: "#main",
         mounted: function () {
+            /*
             axios.get("/api/images.json").then((response) => {
                 console.log("[response-data]", response.data);
                 this.images = response.data;
+            });*/
+            const params = { last_id: this.lastImageId, limit: IMG_LIMIT };
+            axios.get("/api/images.json", { params }).then((response) => {
+                console.log("reponse.data", response.data, this.images);
+                this.images = [...this.images, ...response.data];
+                this.lastImageId = getLastImageId(this.images);
+                if (this.lastImageId == 1) {
+                    console.log("this.lastImageId", this.lastImageId);
+                    this.showMoreButton = false;
+                }
             });
         },
         methods: {
             uploadImage: function () {
                 const formData = new FormData();
+                //event.preventDefault();
                 formData.append("title", this.title);
                 formData.append("description", this.description);
                 formData.append("username", this.username);
@@ -91,11 +114,25 @@
             onClose: function () {
                 this.currentImageId = null;
             },
+            onMoreImagesButtonClick: function () {
+                const params = { last_id: this.lastImageId, limit: IMG_LIMIT };
+                axios.get("/api/images.json", { params }).then((response) => {
+                    this.images = [...this.images, ...response.data];
+                    this.lastImageId = getLastImageId(this.images);
+                    if (this.lastImageId == 1) {
+                        console.log("this.lastImageId", this.lastImageId);
+                        this.showMoreButton = false;
+                    }
+                });
+            },
         },
         data: {
             header: "Latest Images",
             images: [],
+            imageInput: "",
             currentImageId: null,
+            lastImageId: null,
+            showMoreButton: true,
         },
     });
 })();

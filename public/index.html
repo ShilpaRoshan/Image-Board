@@ -8,7 +8,7 @@
     <main id ="main">
         <section class = "upload-form">
             <h2>ADD AN IMAGE NOW!!</h2>
-            <form action="/api/upload" enctype="multipart/form-data" method ="POST">
+            <form action="/api/upload" enctype="multipart/form-data" method ="POST" @submit.prevent="uploadImage">
                 <label for="title">Title</label>
                 <input type="text" name ="title" v:model="title">
                 <label for="description">Description</label>
@@ -17,7 +17,7 @@
                 <input type="text" name="username" v:model = "username">
                 <label for="file">File</label>
                 <input type="file" accept ="image/*" name="image" required v-on:change="handleUploadImage">
-                <button v:on-click="uploadImage">Upload</button>
+                <button type ="submit">Upload</button>
 
             </form>
 
@@ -34,7 +34,11 @@
             </li>
         </ul>
         </div>
-        <div v-else>No images are available!!</div>
+        <p v-if="images.length > 0 && showMoreButton">
+            <button v-on:click = "onMoreImagesButtonClick" class ="more">More</button>
+        </p>
+        
+        <div v-else>No more images!!</div>
         <modal v-if = "currentImageId" v-bind:image-id="currentImageId" @close-modal = "onClose"></modal>
     </main>
     <!--template of modal-->

@@ -12,7 +12,7 @@ CREATE TABLE images(
 
 CREATE TABLE comments(
     id SERIAl PRIMARY KEY,
-    image_id INTEGER NOT NULL UNIQUE REFERENCES images (id),
+    image_id INTEGER NOT NULL REFERENCES images (id),
     username VARCHAR NOT NULL,
     comment_text TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -40,4 +40,46 @@ INSERT INTO images (url, username, title, description) VALUES (
     'That is the question.'
 );
 
-INSERT INTO comments (username,comment_text) VALUES('yo','Wonderful imageboard!!');
+INSERT INTO images (url, username, title, description) VALUES (
+    'https://s3.amazonaws.com/imageboard/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
+    'funkychicken',
+    'Welcome to Spiced and the Future!',
+    'This photo brings back so many great memories.'
+);
+
+INSERT INTO images (url, username, title, description) VALUES (
+    'https://s3.amazonaws.com/imageboard/wg8d94G_HrWdq7bU_2wT6Y6F3zrX-kej.jpg',
+    'discoduck',
+    'Elvis',
+    'We can''t go on together with suspicious minds.'
+);
+
+INSERT INTO images (url, username, title, description) VALUES (
+    'https://s3.amazonaws.com/imageboard/XCv4AwJdm6QuzjenFPKJocpipRNNMwze.jpg',
+    'discoduck',
+    'To be or not to be',
+    'That is the question.'
+);
+
+INSERT INTO images (url, username, title, description) VALUES (
+    'https://s3.amazonaws.com/imageboard/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
+    'funkychicken',
+    'Welcome to Spiced and the Future!',
+    'This photo brings back so many great memories.'
+);
+
+INSERT INTO images (url, username, title, description) VALUES (
+    'https://s3.amazonaws.com/imageboard/wg8d94G_HrWdq7bU_2wT6Y6F3zrX-kej.jpg',
+    'discoduck',
+    'Elvis',
+    'We can''t go on together with suspicious minds.'
+);
+
+INSERT INTO images (url, username, title, description) VALUES (
+    'https://s3.amazonaws.com/imageboard/XCv4AwJdm6QuzjenFPKJocpipRNNMwze.jpg',
+    'discoduck',
+    'To be or not to be',
+    'That is the question.'
+);
+
+

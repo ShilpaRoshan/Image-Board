@@ -19,12 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/api/images.json", (request, response) => {
-    //console.log("hello!");
-    getImages()
+    getImages(request.query)
         .then((result) => {
-            // console.log("[result-images]", result);
-            //let jsonedResult = JSON.stringify(result);
-            //console.log("[jsonedResult]", response.json(result));
+            console.log("[result-getImages]", result);
             response.json(result);
         })
         .catch((error) => {
@@ -38,10 +35,10 @@ app.post(
     uploader.single("image"),
     s3Upload,
     (request, response) => {
-        console.log("[upload]", request.body);
-        console.log("[file]", request.file);
         const { username, title, description } = request.body;
         const { filename } = request.file;
+        console.log("[upload]", request.body);
+        console.log("[file]", request.file);
         const url = `https://s3.amazonaws.com/spicedling/${filename}`;
         //const url = `https://source.unsplash.com/random`;
         insertImage(url, username, title, description)
