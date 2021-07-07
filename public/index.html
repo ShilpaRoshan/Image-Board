@@ -3,36 +3,38 @@
 <head>
     <title>Image Board</title>
     <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
     <main id ="main">
         <section class = "upload-form">
-            <h2>ADD AN IMAGE NOW!!</h2>
+            <h1>IMAGEBOARD</h1>
             <form action="/api/upload" enctype="multipart/form-data" method ="POST" @submit.prevent="uploadImage">
-                <label for="title">Title</label>
-                <input type="text" name ="title" v:model="title">
-                <label for="description">Description</label>
-                <input type="text" name="description" v:model = "description">
-                <label for="username">Username</label>
-                <input type="text" name="username" v:model = "username">
-                <label for="file">File</label>
-                <input type="file" accept ="image/*" name="image" required v-on:change="handleUploadImage">
-                <button type ="submit">Upload</button>
+                <div class= "form-container">
+                    <input type="text" name ="title" v-model="title" placeholder="Title">
+               
+                    <input type="text" name="description" v-model = "description" placeholder="Description">
+                
+                    <input type="text" name="username" v-model = "username" placeholder="Your Name" >
+                
+                    <input type="file" accept ="image/*" name="image" required v-on:change="handleUploadImage">
+                    <button type ="submit" class="image-upload">Upload</button>
 
+                </div>
+                
             </form>
 
         </section>
-        <h1>{{header}}</h1>
+        
         <div v-if ="images.length > 0">
             <ul class = "image-container">
-            <li v-for="image in images" class ="images-list">
-                <article class = "image" v-on:click = "onImageClick(image.id)">
-                    <img :src="image.url" alt="" class = "img" >
-                    <p><h5>{{image.description}}</h5></p>
-                </article>
-                
-            </li>
-        </ul>
+                <li v-for="image in images" class ="images-list">
+                    <article class = "image" v-on:click = "onImageClick(image.id)">
+                        <img :src="image.url" alt="" class = "img" >
+                        <p><h5 class="description">{{image.description}}</h5></p>
+                    </article>
+                </li>
+            </ul>
         </div>
         <p v-if="images.length > 0 && showMoreButton">
             <button v-on:click = "onMoreImagesButtonClick" class ="more">More</button>
@@ -43,30 +45,39 @@
     </main>
     <!--template of modal-->
     <script id="modal" type = "text/x-template">
-        <div class = "modal">
-            <div class = "modal-content">
-                <button class="close" v-on:click="onCloseButtonClick">X</button>
-                <img :src="image.url" :alt="image.title">
-                <h5 class ="image-title">{{image.title}}</h5>
-                <p class="image-description">{{image.description}}</p>
-                <p class ="image-info">Uploaded By {{image.username}} ,{{image.created_at}}</p>
-                <comments v-bind:image-id="imageId"></comments>
-            </div>
+        <div class="modal-backgound">
+                <div class = "modal">
+                    <div class = "modal-content">
+                        
+                        <img :src="image.url" :alt="image.title" class ="modal-image">
+                        <h5 class ="image-title">{{image.title}}</h5>
+                        <p class="image-description">{{image.description}}</p>
+                        <p class ="image-info">Uploaded By {{image.username}} ,{{image.created_at}}</p>
+                    </div>
+
+                    <div class = "comments-container">
+                            <comments v-bind:image-id="imageId"></comments>
+                    </div>
+                    <button class="close" v-on:click="onCloseButtonClick">X</button>
+                </div>
         </div>
     </script>
     <!--template of comments-->
     <script id="comments" type="text/x-template">
         <section class ="comments">
-            <ul v-if="comments.length>0"class ="comments-list">
-                <li v-for="comment in comments">
-                    {{comment.comment_text}} - {{comment.username}}
-                </li>
-            </ul>
+            <div class= "comments-warpper">
+                <ul v-if="comments.length>0"class ="comments-list">
+                    <li v-for="comment in comments" class="comment-value">
+                        {{comment.comment_text}} - {{comment.username}}
+                    </li>
+                </ul>
+            </div>
+            
             <p v-if="!comments.length" class = "no-comments">No comments yet!!</p>
-            <form @submit.prevent = "onSubmit">
-                <input type="text" v-model = "username">
-                <textarea name="comments" id="" cols="30" rows="10" v-model="comment_text"></textarea>
-                <button type ="submit">Send</button>
+            <form @submit.prevent = "onSubmit" class= "comment-form">
+                <input type="text" v-model = "username" placeholder="Username" class="comment-username">
+                <textarea name="comments" id="" cols="20" rows="10" v-model="comment_text" placeholder="Comments Please!!" class="comment-textarea"></textarea>
+                <button type ="submit" class="comment-send">Send</button>
             </form>
         </section>
     </script>

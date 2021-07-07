@@ -100,12 +100,14 @@
                 formData.append("image", this.imageInput[0]);
                 axios.post("/api/upload", formData).then((response) => {
                     console.log("[axios-post]", response);
-                    this.images.push(response.data);
+
+                    this.images.unshift(response.data);
                 });
             },
             handleUploadImage: function (event) {
                 console.log(event.target);
-                this.imageInput = event.target.images;
+                event.preventDefault();
+                this.imageInput = event.target.files;
             },
             onImageClick: function (id) {
                 console.log("[on-image-click]", id);
@@ -127,9 +129,11 @@
             },
         },
         data: {
-            header: "Latest Images",
             images: [],
             imageInput: "",
+            title: "",
+            description: "",
+            username: "",
             currentImageId: null,
             lastImageId: null,
             showMoreButton: true,
